@@ -8,22 +8,30 @@ import IAuth from '../../../Shared/models/Auth/IAuth';
 
 import { useSelector } from 'react-redux';
 
+import { useAppSelector, useAppDispatch } from '../../../store/hooks';
+import { selectAuth, loginAsync } from '../../../store/reducers/auth.reducer';
+
 interface LoginProps {}
 
 const Login: React.FC<LoginProps> = (props) => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    const auth = useSelector<any, IAuth>((state) => state.auth.auth);
+    const selectedAuth = useAppSelector(selectAuth);
+    const dispatch = useAppDispatch();
 
-    const dispatch = useDispatch();
+    console.log('selectedAuth: ', selectedAuth);
+
+    //const auth = useSelector<any, IAuth>((state) => state.auth.auth);
+
+    //const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (auth && auth.token && auth.userId) {
-            navigate('/dashboard');
-        }
-    }, [auth]);
+    // useEffect(() => {
+    //     if (auth && auth.token && auth.userId) {
+    //         navigate('/dashboard');
+    //     }
+    // }, [auth]);
 
     const emailChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -36,10 +44,12 @@ const Login: React.FC<LoginProps> = (props) => {
     };
 
     const loginHandler = (e: FormEvent): void => {
-        console.log('das ist login handler')
+        console.log('das ist login handler');
         e.preventDefault();
         if (email && password) {
-            // dispatch(AUTH_ACTIONS.auth(email, password));
+            console.log('dispatch loginAsync email: ', email);
+            console.log('dispatch loginAsync password: ', password);
+            dispatch(loginAsync({ email, password }));
         }
     };
 
