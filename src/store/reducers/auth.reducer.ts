@@ -39,7 +39,7 @@ export const loginAsync = createAsyncThunk(
                 email: email,
                 token: response.data.token,
                 userId: response.data.userId,
-                expirationDate: new Date(dT.exp * 1000),
+                expirationDate: new Date(dT.exp * 1000).toString(),
             };
             await AUTH_UTILITIES.setLocalStorage(successObj);
             return successObj;
@@ -130,32 +130,3 @@ export const {} = authSlice.actions;
 export const selectAuth = (state: RootState) => state.auth;
 
 export default authSlice.reducer;
-
-/*const authReducer = (state = initialState, action: IAction) => {
-  switch (action.type) {
-    case ACTION_TYPES.AUTH_START:
-      return {
-        ...state
-      }
-    case ACTION_TYPES.AUTH_SUCCESS:
-      return {
-        ...state,
-        auth: action.payload
-      }
-    case ACTION_TYPES.AUTH_FAIL:
-      return {
-        ...state,
-        auth: null
-      }
-    case ACTION_TYPES.AUTH_LOGOUT:
-      return {
-        ...state,
-        auth: null
-      }
-    default:
-      return state;
-  }
-};
-
-export default authReducer;*/
-

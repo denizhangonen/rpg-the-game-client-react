@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 
 import { useAppSelector, useAppDispatch } from '../../../store/hooks';
 import { selectAuth, loginAsync } from '../../../store/reducers/auth.reducer';
+import { padding, style } from '@mui/system';
 
 interface LoginProps {}
 
@@ -17,10 +18,15 @@ const Login: React.FC<LoginProps> = (props) => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    const selectedAuth = useAppSelector(selectAuth);
+    const { auth } = useAppSelector(selectAuth);
     const dispatch = useAppDispatch();
 
-    console.log('selectedAuth: ', selectedAuth);
+    useEffect(() => {
+        if (auth) {
+            navigate('/game');
+        }
+        // dispatch(AUTH_ACTIONS.authCheckState());
+    }, [auth]);
 
     //const auth = useSelector<any, IAuth>((state) => state.auth.auth);
 
@@ -66,6 +72,7 @@ const Login: React.FC<LoginProps> = (props) => {
                     value={email}
                     onChange={emailChangeHandler}
                 />
+                <br />
                 <input
                     required
                     name="password"
@@ -75,6 +82,7 @@ const Login: React.FC<LoginProps> = (props) => {
                     value={password}
                     onChange={passwordChangeHandler}
                 />
+                <br />
                 <button type="submit">Sign In</button>
             </form>
         </div>
