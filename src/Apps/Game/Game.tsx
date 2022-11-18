@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { selectAuth } from '../../store/reducers/auth.reducer';
-import { getCharAsync, selectChar } from '../../store/reducers/game.reducer';
-
-import IAuth from '../../Shared/models/Auth/IAuth';
+import { selectChar } from '../../store/reducers/game.reducer';
+import { getChar } from '../../store/actions/game.actions';
 
 import { Box, Card, Container, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -38,7 +37,9 @@ const Game: React.FC<GameProps> = (props) => {
     const classes = useStyles();
 
     useEffect(() => {
-        dispatch(getCharAsync());
+        if (auth) {
+            dispatch(getChar({ userId: auth.userId }));
+        }
     }, []);
 
     useEffect(() => {
