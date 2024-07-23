@@ -1,61 +1,64 @@
 import * as glossary from './glossary';
-import IAuth from './models/Auth/IAuth'
+import IAuth from './models/Auth/IAuth';
 
 /**
  * @description Clears all items in localstorage returns a Promise
- * @returns Promise 
+ * @returns Promise
  */
 export const clearLocalStorage = () => {
-    return new Promise((resolve, reject) => {
-        try {
-            localStorage.removeItem(glossary.ACCESS_TOKEN);
-            localStorage.removeItem(glossary.ACCESS_TOKEN_EXPIRATION_DATE);
-            localStorage.removeItem(glossary.USERID);
-            localStorage.removeItem(glossary.EMAIL);
-            resolve(true)
-        } catch (err) {
-            reject(err)
-        }
-    })
-}
+  return new Promise((resolve, reject) => {
+    try {
+      localStorage.removeItem(glossary.ACCESS_TOKEN);
+      localStorage.removeItem(glossary.ACCESS_TOKEN_EXPIRATION_DATE);
+      localStorage.removeItem(glossary.USERID);
+      localStorage.removeItem(glossary.EMAIL);
+      localStorage.removeItem(glossary.CHAR_ID);
+      resolve(true);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
 
 /**
- * @description Sets localStorage for given token object 
- * @param {token} auth Token object of API result with specific properties 
+ * @description Sets localStorage for given token object
+ * @param {token} auth Token object of API result with specific properties
  * @returns Promise
  */
 export const setLocalStorage = (auth: IAuth) => {
-    return new Promise((resolve, reject) => {
-        try {
-            localStorage.setItem(glossary.ACCESS_TOKEN, auth.token);
-            localStorage.setItem(glossary.ACCESS_TOKEN_EXPIRATION_DATE, auth.expirationDate);
-            localStorage.setItem(glossary.USERID, auth.userId)
-            localStorage.setItem(glossary.EMAIL, auth.email)
-            resolve(true)
-        } catch (err) {
-            reject(err)
-        }
-    })
-}
+  return new Promise((resolve, reject) => {
+    try {
+      localStorage.setItem(glossary.ACCESS_TOKEN, auth.token);
+      localStorage.setItem(
+        glossary.ACCESS_TOKEN_EXPIRATION_DATE,
+        auth.expirationDate
+      );
+      localStorage.setItem(glossary.USERID, auth.userId);
+      localStorage.setItem(glossary.EMAIL, auth.email);
+      localStorage.setItem(glossary.CHAR_ID, auth.charId);
+      resolve(true);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
 
 /**
  * @description Clears and sets localStorage for given token object by using two custom functions
  * @param {token} auth Token object of API result with specific properties
  * @returns Promise
  */
-export const reconstructLocalStorage = (auth: any) => {
-    clearLocalStorage().then(() => {
-        return setLocalStorage(auth)
-    })
-}
+export const reconstructLocalStorage = (auth: IAuth) => {
+  return clearLocalStorage().then(() => setLocalStorage(auth));
+};
 
 /**
  * @description Prepares an object for access token request with the request URL
  * @param {email} email email/username of user
  * @param {password} password password of user
  * @returns an object with 2 properties;
- *  @property {tokenBody} authData contains the request data 
- *  @property {url} url contains the url 
+ *  @property {tokenBody} authData contains the request data
+ *  @property {url} url contains the url
  */
 // export const accessTokenRequestData = (email, password) => {
 //     const accessTokenRequestData = {
@@ -74,8 +77,8 @@ export const reconstructLocalStorage = (auth: any) => {
 /**
  * @description Prepares an object for refresh token request with the request URL
  * @returns an object with 2 properties;
- *  @property {tokenBody} authData contains the request data 
- *  @property {url} url contains the url 
+ *  @property {tokenBody} authData contains the request data
+ *  @property {url} url contains the url
  */
 // export const refreshTokenRequestData = () => {
 //     const refreshTokenRequestData = {
@@ -91,12 +94,10 @@ export const reconstructLocalStorage = (auth: any) => {
 // }
 
 /**
- * 
+ *
  */
-export const checkJWtAccessTokenExpiration = () => {
-
-}
+export const checkJwtAccessTokenExpiration = () => {};
 
 export const getAccessToken = () => {
-    return localStorage.getItem(glossary.ACCESS_TOKEN);
-}
+  return localStorage.getItem(glossary.ACCESS_TOKEN);
+};
